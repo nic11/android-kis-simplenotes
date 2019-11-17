@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Kis SimpleNotes</string>
+
+    <string name="somebody">Some... BODY ONCE TOLD ME</string>
+    <string name="lipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tincidunt sapien vitae lacus tempus, sit amet pulvinar nisi porta. Vivamus id tellus suscipit, auctor nulla et, mattis orci. Fusce in bibendum augue. Sed in turpis fermentum, pulvinar arcu vel, interdum metus. Ut gravida rutrum arcu, vitae porta urna semper a. Etiam porttitor dapibus lorem at accumsan. Donec a vehicula justo, vitae luctus dolor. Nulla laoreet quam quis accumsan scelerisque. Etiam porttitor nibh ut felis mattis, eget tincidunt ligula cursus. Suspendisse tempor lobortis lacus quis commodo.</string>
+    <string name="send_email">Send email</string>
+</resources>
