@@ -2,6 +2,159 @@
     <string name="app_name">Kis SimpleNotes</string>
 
     <string name="somebody">Some... BODY ONCE TOLD ME</string>
-    <string name="lipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tincidunt sapien vitae lacus tempus, sit amet pulvinar nisi porta. Vivamus id tellus suscipit, auctor nulla et, mattis orci. Fusce in bibendum augue. Sed in turpis fermentum, pulvinar arcu vel, interdum metus. Ut gravida rutrum arcu, vitae porta urna semper a. Etiam porttitor dapibus lorem at accumsan. Donec a vehicula justo, vitae luctus dolor. Nulla laoreet quam quis accumsan scelerisque. Etiam porttitor nibh ut felis mattis, eget tincidunt ligula cursus. Suspendisse tempor lobortis lacus quis commodo.</string>
-    <string name="send_email">Send email</string>
+    <string name="lipsum">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tincidunt sapien vitae
+        lacus tempus, sit amet pulvinar nisi porta. Vivamus id tellus suscipit, auctor nulla et,
+        mattis orci. Fusce in bibendum augue. Sed in turpis fermentum, pulvinar arcu vel, interdum
+        metus. Ut gravida rutrum arcu, vitae porta urna semper a. Etiam porttitor dapibus lorem at
+        accumsan. Donec a vehicula justo, vitae luctus dolor. Nulla laoreet quam quis accumsan
+        scelerisque. Etiam porttitor nibh ut felis mattis, eget tincidunt ligula cursus.
+        Suspendisse tempor lobortis lacus quis commodo.
+    </string>
+    <string name="genius">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tincidunt sapien vitae
+        lacus tempus, sit amet pulvinar nisi porta. Vivamus id tellus suscipit, auctor nulla et,
+        mattis orci. Fusce in bibendum augue. Sed in turpis fermentum, pulvinar arcu vel, interdum
+        metus. Ut gravida rutrum arcu, vitae porta urna semper a. Etiam porttitor dapibus lorem at
+        accumsan. Donec a vehicula justo, vitae luctus dolor. Nulla laoreet quam quis accumsan
+        scelerisque. Etiam porttitor nibh ut felis mattis, eget tincidunt ligula cursus.
+        Suspendisse tempor lobortis lacus quis commodo.
+    </string>
+    <string name="portal2">
+        Испытуемый отказался использовать портальную пушку. Несмотря на все усилия тестового
+        окружения Aperture Science, включая туррели Aperture Science, подвижные платформы
+        Aperture Science, другие непонятные штуки Aperture Science, объект испытания отказывался
+        входить в портал. Согласно протоколу, его надлежит утилизировать и превратить в торт.
+    </string>
+    <string name="running">
+        Modern talking, modern walking in the streets\n
+        New desire, take me higher\n
+        Lift me higher with your speed\n
+        I need fire\n
+        Get the satellite\n
+        If you want to see me\n
+        Talking on the net\n
+        I know the way you like it\n
+        Get your credit cards\n
+        \'Cause I need no money\n
+        All I wanna get is you, baby\n
+        Runnin\' in the nineties\n
+        Is a new way I like to be\n
+        I\'m just running in the nineties\n
+        Come on, baby, run to me\n
+        We are running in the nineties\n
+        Is a new way to set me free\n
+        I\'m just running in the nineties\n
+        Yes, I wanna know, yes, I wanna see\n
+        Cyber talking\n
+        Cybersex is on the line\n
+        New desire\n
+        Take me higher\n
+        Boost me higher with your mind\n
+        Set me on fire\n
+        Get the satellite\n
+        If you want to see me\n
+        Talking on the net\n
+        I know the way you like it\n
+        Get your credit cards\n
+        \'Cause I need no money\n
+        All I wanna get is you, baby\n
+        Running in the nineties\n
+        Is a new way I like to be\n
+        I\'m just running in the nineties\n
+        Come on baby run to me\n
+        We are running in the nineties\n
+        Is a new way to set me free\n
+        I\'m just running in the nineties\n
+        Yes, I wanna know, yes, I wanna see
+    </string>
+    <string name="hat">
+        Get up on the floor\n
+        Dancin\' all night long\n
+        Get up on the floor\n
+        Dancin\' till the break of dawn\n
+        Get up on the floor\n
+        Dancin\' till the break of dawn\n
+        Get up on the floor\n
+        Dancin\'\n
+        All the time\n
+        My baby you on my mind\n
+        And I don\'t know why\n
+        Yeah but the feeling is fine\n
+        Can\'t you see\n
+        Yo\' honey you are for me, oh\n
+        It were meant to be (yeah)\n
+        Dancin\' in the moonlight\n
+        Gazing at the stars so bright\n
+        Holding you until the sunrise\n
+        Sleeping until the midnight\n
+        Get up on the floor\n
+        Dancin\' all night long\n
+        Get up on the floor\n
+        Dancin\' till the break of dawn\n
+        Get up on the floor\n
+        Dancin\' till the break of dawn\n
+        Get up on the floor\n
+        Dancin\'\n
+        Dancin\' is what to do\n
+        Dancin\' when I think of you\n
+        Dancin\' is what clears my soul\n
+        Dancin\' is what makes me whole\n
+        Dancin\' is what to do\n
+        Dancin\' when I think of you\n
+        Dancin\' is what clears my soul\n
+        Dancin\' is what makes me whole\n
+        Everytime when I look in your eyes\n
+        That smile was crying that you were mine\n
+        Do you know, your love is true I know\n
+        You are the best thing that has happened to me, (oh)\n
+        Get up on the floor\n
+        Dancin\' all night long\n
+        Get up on the floor\n
+        Dancin\' till the break of dawn\n
+        Get up on the floor\n
+        Dancin\' till the break of dawn\n
+        Get up on the floor\n
+        Dancin\'\n
+        Dancin\' is what to do\n
+        Dancin\' when I think of you\n
+        Dancin\' is what clears my soul\n
+        Dancin\' is what makes me whole\n
+        Dancin\' is what to do\n
+        Dancin\' when I think of you\n
+        Dancin\' is what clears my soul\n
+        Dancin\' is what makes me whole\n
+        Get up on the floor\n
+        Dancin\' all night long\n
+        Get up on the floor\n
+        Dancin\' till the break of dawn\n
+        Get up on the floor\n
+        Dancin\' till the break of dawn\n
+        Get up on the floor\n
+        Dancin\' (oh)\n
+        Get up on the floor\n
+        Dancin\' all night long\n
+        Get up on the floor\n
+        Dancin\' till the break of dawn\n
+        Get up on the floor\n
+        Dancin\' till the break of dawn\n
+        Get up on the floor\n
+        Dancin\' (oh)\n
+        Dancin\' is what to do\n
+        Dancin\' when I think of you\n
+        Dancin\' is what clears my soul\n
+        Dancin\' is what makes me whole\n
+        Dancin\' is what to do\n
+        Dancin\' when I think of you\n
+        Dancin\' is what clears my soul\n
+        Dancin\' is what makes me whole\n
+        Dancin\' is what to do\n
+        Dancin\' when I think of you\n
+        Dancin\' is what clears my soul\n
+        Dancin\' is what makes me whole\n
+        Dancin\' is what to do\n
+        Dancin\' when I think of you\n
+        Dancin\' is what clears my soul\n
+        Dancin\' is what makes me whole
+    </string>
 </resources>
