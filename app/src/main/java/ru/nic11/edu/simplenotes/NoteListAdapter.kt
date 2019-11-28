@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.note_list_item.view.*
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 
 class NoteListAdapter : RecyclerView.Adapter<NoteListAdapter.MyViewHolder>() {
     class MyViewHolder(val cardView: CardView) : RecyclerView.ViewHolder(cardView) {
@@ -32,6 +34,7 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListAdapter.MyViewHolder>() {
         val cardView = holder.cardView
         holder.noteId = note.id
         cardView.card_note_title.text = note.title
+        cardView.card_note_date.text = SimpleDateFormat.getDateInstance(DateFormat.MEDIUM).format(note.date)
         cardView.card_note_text.text = note.text
         cardView.card_note_image.setImageResource(note.drawableIdRes)
     }
