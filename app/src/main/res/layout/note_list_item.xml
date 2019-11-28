@@ -25,7 +25,7 @@
             android:id="@+id/card_note_image"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            app:layout_constraintDimensionRatio="W,1:1"
+            app:layout_constraintDimensionRatio="W,3:4"
             app:layout_constraintTop_toTopOf="@id/card_constraint"
             app:layout_constraintBottom_toBottomOf="@id/card_constraint"
             app:layout_constraintLeft_toLeftOf="@id/card_constraint"
