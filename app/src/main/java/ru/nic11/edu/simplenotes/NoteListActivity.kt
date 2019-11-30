@@ -1,7 +1,9 @@
 package ru.nic11.edu.simplenotes
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.res.Configuration
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -26,6 +28,10 @@ class NoteListActivity : AppCompatActivity() {
             setHasFixedSize(true)
             layoutManager = viewManager
             adapter = viewAdapter
+        }
+
+        if (resources.configuration.orientation != Configuration.ORIENTATION_PORTRAIT) {
+            recyclerView.layoutManager = GridLayoutManager(applicationContext, 2)
         }
     }
 }
