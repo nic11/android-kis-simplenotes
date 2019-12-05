@@ -21,10 +21,10 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListAdapter.MyViewHolder>() {
 
         val holder = MyViewHolder(cardView)
 
-        cardView.setOnClickListener {
-            val intent = DetailsActivity.buildIntent(context, holder.noteId)
-            context.startActivity(intent)
-        }
+//        cardView.setOnClickListener {
+//            val intent = DetailsActivity.buildIntent(context, holder.noteId)
+//            context.startActivity(intent)
+//        }
 
         return holder
     }
