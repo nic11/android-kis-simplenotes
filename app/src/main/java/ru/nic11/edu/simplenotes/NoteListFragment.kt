@@ -33,8 +33,6 @@ class NoteListFragment : Fragment() {
 
         val activity = activity!!
 
-        activity.title = "Notes"
-
         NoteRepository.initialize(activity)
 
         viewManager = LinearLayoutManager(activity)
@@ -47,7 +45,10 @@ class NoteListFragment : Fragment() {
             adapter = viewAdapter
         }
 
-        if (resources.configuration.orientation != Configuration.ORIENTATION_PORTRAIT) {
+        val isLandscapeOrientation = resources.getBoolean(R.bool.isLandscapeOrientation)
+        val deviceIsTablet = resources.getBoolean(R.bool.deviceIsTablet)
+
+        if (isLandscapeOrientation xor deviceIsTablet) {
             recyclerView.layoutManager = GridLayoutManager(activity, 2)
         }
     }

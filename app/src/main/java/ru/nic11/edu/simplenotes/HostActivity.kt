@@ -12,9 +12,11 @@ class HostActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.activity_host_container, NoteListFragment(), NoteListFragment.TAG)
+                .replace(R.id.activity_host_note_list_container, NoteListFragment(), NoteListFragment.TAG)
                 .addToBackStack(null)
                 .commit()
+
+            title = resources.getString(R.string.main_title)
         }
     }
 
@@ -23,13 +25,18 @@ class HostActivity : AppCompatActivity() {
             finish()
         } else {
             super.onBackPressed()
+            title = resources.getString(R.string.main_title)
         }
     }
 
     fun onNoteSelected(id: String) {
+        if (supportFragmentManager.findFragmentByTag(DetailsFragment.TAG) != null) {
+            supportFragmentManager.popBackStack()
+        }
+
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.activity_host_container, DetailsFragment.build(id), DetailsFragment.TAG)
+            .replace(R.id.activity_host_details_container, DetailsFragment.build(id), DetailsFragment.TAG)
             .addToBackStack(null)
             .commit()
     }

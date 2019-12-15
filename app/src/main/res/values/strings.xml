@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Kis SimpleNotes</string>
 
+    <string name="main_title">Notes</string>
+
     <string name="somebody">Some... BODY ONCE TOLD ME</string>
     <string name="lipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tincidunt sapien vitae

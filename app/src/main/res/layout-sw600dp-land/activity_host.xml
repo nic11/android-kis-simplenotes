@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:baselineAligned="false"
     >
 
     <FrameLayout
         android:id="@+id/activity_host_note_list_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_weight="1"
         />
 
     <FrameLayout
         android:id="@+id/activity_host_details_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_weight="1"
         />
 
-</FrameLayout>
+</LinearLayout>
