@@ -15,12 +15,6 @@ class HostActivity : AppCompatActivity() {
                 .replace(R.id.activity_host_container, NoteListFragment(), NoteListFragment.TAG)
                 .addToBackStack(null)
                 .commit()
-
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.activity_host_container, DetailsFragment.build("7"), DetailsFragment.TAG)
-                .addToBackStack(null)
-                .commit()
         }
     }
 
@@ -30,5 +24,13 @@ class HostActivity : AppCompatActivity() {
         } else {
             super.onBackPressed()
         }
+    }
+
+    fun onNoteSelected(id: String) {
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.activity_host_container, DetailsFragment.build(id), DetailsFragment.TAG)
+            .addToBackStack(null)
+            .commit()
     }
 }

@@ -38,7 +38,7 @@ class NoteListFragment : Fragment() {
         NoteRepository.initialize(activity)
 
         viewManager = LinearLayoutManager(activity)
-        viewAdapter = NoteListAdapter()
+        viewAdapter = NoteListAdapter(activity as HostActivity)
 
         recyclerView = view.findViewById(R.id.notes_list_recycler_view)
         recyclerView.apply {
