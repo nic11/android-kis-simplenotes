@@ -1,7 +1,9 @@
 package ru.nic11.edu.simplenotes
 
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,6 +52,16 @@ class NoteListFragment : Fragment() {
 
         if (isLandscapeOrientation xor deviceIsTablet) {
             recyclerView.layoutManager = GridLayoutManager(activity, 2)
+        }
+
+        val fab: View = view.findViewById(R.id.fab)
+        fab.setOnClickListener {
+            val intent = Intent(context, CameraActivity::class.java)
+            startActivity(intent)
+            Log.i("tag","WAWAWAWAWAWAWA")
+//            Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
+//                .setAction("Action", null)
+//                .show()
         }
     }
 }

@@ -19,34 +19,36 @@ object NoteRepository {
         }
         initialized = true
 
+        fillDbDefault(context)
+    }
+
+    private fun fillDbDefault(context: Context) {
         var cnt = 0
-        for (i in 0 until 50) {
-            var cs = (cnt++).toString()
-            _notes.add(Note(
-                cs, Date(), "[$cs]" + context.getString(R.string.lipsum),
-                context.getString(R.string.somebody) + "/$cs", R.drawable.my_kek2
-            ))
-            cs = (cnt++).toString()
-            _notes.add(Note(
-                cs, Date(), "[$cs]" + context.getString(R.string.genius),
-                "Что на этот раз сказал гений? /$cs", R.drawable.genius
-            ))
-            cs = (cnt++).toString()
-            _notes.add(Note(
-                cs, Date(), "[$cs]" + context.getString(R.string.portal2),
-                "Предложили сыграть в Portal 2 /$cs", R.drawable.geralt
-            ))
-            cs = (cnt++).toString()
-            _notes.add(Note(
-                cs, Date(), "[$cs]" + context.getString(R.string.running),
-                "Не придумал шутку /$cs", R.drawable.running_in_the_90s
-            ))
-            cs = (cnt++).toString()
-            _notes.add(Note(
-                cs, Date(), "[$cs]" + context.getString(R.string.hat),
-                "Нашлась шляпа! /$cs", R.drawable.smug
-            ))
-        }
+        var cs = (cnt++).toString()
+        _notes.add(Note(
+            cs, Date(), "[$cs]" + context.getString(R.string.lipsum),
+            context.getString(R.string.somebody) + "/$cs", R.drawable.my_kek2
+        ))
+        cs = (cnt++).toString()
+        _notes.add(Note(
+            cs, Date(), "[$cs]" + context.getString(R.string.genius),
+            "Что на этот раз сказал гений? /$cs", R.drawable.genius
+        ))
+        cs = (cnt++).toString()
+        _notes.add(Note(
+            cs, Date(), "[$cs]" + context.getString(R.string.portal2),
+            "Предложили сыграть в Portal 2 /$cs", R.drawable.geralt
+        ))
+        cs = (cnt++).toString()
+        _notes.add(Note(
+            cs, Date(), "[$cs]" + context.getString(R.string.running),
+            "Не придумал шутку /$cs", R.drawable.running_in_the_90s
+        ))
+        cs = (cnt++).toString()
+        _notes.add(Note(
+            cs, Date(), "[$cs]" + context.getString(R.string.hat),
+            "Нашлась шляпа! /$cs", R.drawable.smug
+        ))
     }
 
     fun getNoteWithId(id: String): Note? {
