@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment
 
 class DetailsFragment : Fragment() {
     companion object {
-        const val ID_KEY = "note_id"
+        private const val ID_KEY = "note_id"
         const val TAG = "DetailsFragment"
 
         fun build(id: String): Fragment {
