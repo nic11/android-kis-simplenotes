@@ -69,7 +69,6 @@ class NoteListFragment : Fragment() {
                     -1,
                     Date(),
                     "fake note",
-                    "fake note",
                     R.drawable.smug
                 ))
 

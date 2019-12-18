@@ -2,6 +2,7 @@ package ru.nic11.edu.simplenotes
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.note_list_item.view.*
@@ -29,6 +30,10 @@ class NoteListAdapter(
             activity.onNoteSelected(holder.noteId)
         }
 
+        cardView.card_note_dots.setOnClickListener {
+            Toast.makeText(context, "kek!", Toast.LENGTH_SHORT).show()
+        }
+
         return holder
     }
 
@@ -36,7 +41,6 @@ class NoteListAdapter(
         val note = noteRepository.notes[position]
         val cardView = holder.cardView
         holder.noteId = note.id
-        cardView.card_note_title.text = note.title
         cardView.card_note_date.text = SimpleDateFormat.getDateInstance(DateFormat.MEDIUM).format(note.date)
         cardView.card_note_text.text = note.text
         cardView.card_note_image.setImageResource(note.drawableIdRes)

@@ -25,7 +25,6 @@ class HostActivity : AppCompatActivity() {
             finish()
         } else {
             super.onBackPressed()
-            title = resources.getString(R.string.main_title)
         }
     }
 

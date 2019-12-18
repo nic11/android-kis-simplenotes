@@ -19,10 +19,11 @@ class AppSqliteOpenHelper(context: Context?) : SQLiteOpenHelper(
         oldVersion: Int,
         newVersion: Int
     ) {
+        NoteContract.migrate(db, oldVersion, newVersion)
     }
 
     companion object {
         private const val DATABASE_NAME = "KisSimpleNotes.db"
-        private const val VERSION = 1
+        private const val VERSION = 2
     }
 }

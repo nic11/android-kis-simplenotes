@@ -24,28 +24,33 @@ class NoteRepository(
         var cnt = 0L
         val date = GregorianCalendar(2077, 3, 16, 13, 37).time
         create(Note(
-            cnt, date, "[$cnt]" + context.getString(R.string.lipsum),
-            context.getString(R.string.somebody) + "/$cnt", R.drawable.my_kek2
+            cnt, date, context.getString(R.string.somebody) + "\n" +
+                    "[$cnt]" + context.getString(R.string.lipsum),
+            R.drawable.my_kek2
         ))
         cnt++
         create(Note(
-            cnt, date, "[$cnt]" + context.getString(R.string.genius),
-            "Что на этот раз сказал гений? /$cnt", R.drawable.genius
+            cnt, date, "Что на этот раз сказал гений? /$cnt\n" +
+                    "[$cnt]" + context.getString(R.string.genius),
+            R.drawable.genius
         ))
         cnt++
         create(Note(
-            cnt, date, "[$cnt]" + context.getString(R.string.portal2),
-            "Предложили сыграть в Portal 2 /$cnt", R.drawable.geralt
+            cnt, date, "Предложили сыграть в Portal 2 /$cnt\n" +
+                    "[$cnt]" + context.getString(R.string.portal2),
+            R.drawable.geralt
         ))
         cnt++
         create(Note(
-            cnt, date, "[$cnt]" + context.getString(R.string.running),
-            "Не придумал шутку /$cnt", R.drawable.running_in_the_90s
+            cnt, date, "Не придумал шутку /$cnt\n" +
+                    "[$cnt]" + context.getString(R.string.running),
+            R.drawable.running_in_the_90s
         ))
         cnt++
         create(Note(
-            cnt, date, "[$cnt]" + context.getString(R.string.hat),
-            "Нашлась шляпа! /$cnt", R.drawable.smug
+            cnt, date, "Нашлась шляпа! /$cnt\n" +
+                    "[$cnt]" + context.getString(R.string.hat),
+            R.drawable.smug
         ))
     }
 
@@ -60,7 +65,6 @@ class NoteRepository(
             val contentValues = ContentValues()
             contentValues.put(NoteContractColumns.DATE, note.date.time)
             contentValues.put(NoteContractColumns.TEXT, note.text)
-            contentValues.put(NoteContractColumns.TITLE, note.title)
             contentValues.put(NoteContractColumns.DRAWABLE_ID, note.drawableIdRes)
             db.insert(NoteContract.TABLE_NAME, null, contentValues)
         } finally {
@@ -79,7 +83,6 @@ class NoteRepository(
                     NoteContractColumns._ID,
                     NoteContractColumns.DATE,
                     NoteContractColumns.TEXT,
-                    NoteContractColumns.TITLE,
                     NoteContractColumns.DRAWABLE_ID
                 ),
                 null,
@@ -93,7 +96,6 @@ class NoteRepository(
                     id = cur.getLong(cur.getColumnIndex(NoteContractColumns._ID)),
                     date = Date(cur.getLong(cur.getColumnIndex(NoteContractColumns.DATE))),
                     text = cur.getString(cur.getColumnIndex(NoteContractColumns.TEXT)),
-                    title = cur.getString(cur.getColumnIndex(NoteContractColumns.TITLE)),
                     drawableIdRes = cur.getInt(cur.getColumnIndex(NoteContractColumns.DRAWABLE_ID))
                 )
                 noteList.add(note)
