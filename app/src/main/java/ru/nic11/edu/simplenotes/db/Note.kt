@@ -1,4 +1,4 @@
-package ru.nic11.edu.simplenotes
+package ru.nic11.edu.simplenotes.db
 
 import java.util.*
 

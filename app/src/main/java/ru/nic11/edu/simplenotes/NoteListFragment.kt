@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import ru.nic11.edu.simplenotes.db.NoteRepository
 
 class NoteListFragment : Fragment() {
     companion object {
@@ -35,10 +36,8 @@ class NoteListFragment : Fragment() {
 
         val activity = activity!!
 
-        NoteRepository.initialize(activity)
-
         viewManager = LinearLayoutManager(activity)
-        viewAdapter = NoteListAdapter(activity as HostActivity)
+        viewAdapter = NoteListAdapter(MyApp.noteRepository, activity as HostActivity)
 
         recyclerView = view.findViewById(R.id.notes_list_recycler_view)
         recyclerView.apply {
@@ -59,9 +58,6 @@ class NoteListFragment : Fragment() {
             val intent = Intent(context, CameraActivity::class.java)
             startActivity(intent)
             Log.i("tag","WAWAWAWAWAWAWA")
-//            Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null)
-//                .show()
         }
     }
 }

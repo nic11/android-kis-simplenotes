@@ -18,6 +18,10 @@ class HostActivity : AppCompatActivity() {
 
             title = resources.getString(R.string.main_title)
         }
+
+        if (MyApp.noteRepository.notes.size == 0) {
+            MyApp.noteRepository.fillDbDefault()
+        }
     }
 
     override fun onBackPressed() {

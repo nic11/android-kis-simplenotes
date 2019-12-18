@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import ru.nic11.edu.simplenotes.db.NoteRepository
 
 class DetailsFragment : Fragment() {
     companion object {
@@ -40,7 +41,7 @@ class DetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val id = arguments!!.getString(ID_KEY)!!
-        val note = NoteRepository.getNoteWithId(id)!!
+        val note = MyApp.noteRepository.getNoteWithId(id)!!
 
         activity!!.title = note.title
         view.findViewById<ImageView>(R.id.note_image).setImageResource(note.drawableIdRes)

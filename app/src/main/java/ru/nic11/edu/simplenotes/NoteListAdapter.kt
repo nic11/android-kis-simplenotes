@@ -5,10 +5,14 @@ import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.note_list_item.view.*
+import ru.nic11.edu.simplenotes.db.NoteRepository
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 
-class NoteListAdapter(private val activity: HostActivity) : RecyclerView.Adapter<NoteListAdapter.MyViewHolder>() {
+class NoteListAdapter(
+    private val noteRepository: NoteRepository,
+    private val activity: HostActivity
+) : RecyclerView.Adapter<NoteListAdapter.MyViewHolder>() {
     class MyViewHolder(val cardView: CardView) : RecyclerView.ViewHolder(cardView) {
         lateinit var noteId : String
     }
@@ -29,7 +33,7 @@ class NoteListAdapter(private val activity: HostActivity) : RecyclerView.Adapter
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val note = NoteRepository.notes[position]
+        val note = noteRepository.notes[position]
         val cardView = holder.cardView
         holder.noteId = note.id
         cardView.card_note_title.text = note.title
@@ -38,5 +42,5 @@ class NoteListAdapter(private val activity: HostActivity) : RecyclerView.Adapter
         cardView.card_note_image.setImageResource(note.drawableIdRes)
     }
 
-    override fun getItemCount() = NoteRepository.notes.size
+    override fun getItemCount() = noteRepository.notes.size
 }
