@@ -10,6 +10,7 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.note_list_item.view.*
+import ru.nic11.edu.simplenotes.db.Note
 import ru.nic11.edu.simplenotes.db.NoteRepository
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -20,7 +21,8 @@ class NoteListAdapter(
 ) : RecyclerView.Adapter<NoteListAdapter.MyViewHolder>() {
 
     class MyViewHolder(val cardView: CardView) : RecyclerView.ViewHolder(cardView) {
-        var noteId : Long = -1
+//        var noteId : Long = -1
+        lateinit var note : Note
     }
 
     override fun onCreateViewHolder(parent: ViewGroup,
@@ -32,7 +34,7 @@ class NoteListAdapter(
         val holder = MyViewHolder(cardView)
 
         cardView.setOnClickListener {
-            activity.onNoteSelected(holder.noteId)
+            activity.onNoteSelected(holder.note.id)
         }
 
         cardView.card_note_dots.setOnClickListener {
@@ -41,13 +43,20 @@ class NoteListAdapter(
             popupMenu.setOnMenuItemClickListener { item ->
                 when (item?.itemId) {
                     R.id.menu_share -> {
-                        Toast.makeText(MyApp.context, "share note id=${holder.noteId}", Toast.LENGTH_SHORT).show()
+                        val sendIntent: Intent = Intent().apply {
+                            action = Intent.ACTION_SEND
+                            putExtra(Intent.EXTRA_TEXT, holder.note.text)
+                            type = "text/plain"
+                        }
+
+                        val shareIntent = Intent.createChooser(sendIntent, null)
+                        ContextCompat.startActivity(context, shareIntent, null)
                         true
                     }
                     R.id.menu_delete -> {
-                        MyApp.noteRepository.deleteNodeById(holder.noteId)
+                        MyApp.noteRepository.deleteNodeById(holder.note.id)
                         notifyDataSetChanged()  // TODO: notifyRemoved
-                        Toast.makeText(MyApp.context, "deleted note id=${holder.noteId}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(MyApp.context, "deleted note id=${holder.note.id}", Toast.LENGTH_SHORT).show()
                         true
                     }
                     else -> false
@@ -62,7 +71,7 @@ class NoteListAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val note = noteRepository.notes[position]
         val cardView = holder.cardView
-        holder.noteId = note.id
+        holder.note = note
         cardView.card_note_date.text = SimpleDateFormat.getDateInstance(DateFormat.MEDIUM).format(note.date)
         cardView.card_note_text.text = note.text
         cardView.card_note_image.setImageResource(note.drawableIdRes)
