@@ -1,15 +1,20 @@
 package ru.nic11.edu.simplenotes
 
-import android.content.res.Configuration
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import ru.nic11.edu.simplenotes.db.Note
+import java.util.*
+
+const val CAMERA_REQUEST_CODE = 2077
 
 class NoteListFragment : Fragment() {
     companion object {
@@ -33,10 +38,8 @@ class NoteListFragment : Fragment() {
 
         val activity = activity!!
 
-        NoteRepository.initialize(activity)
-
         viewManager = LinearLayoutManager(activity)
-        viewAdapter = NoteListAdapter(activity as HostActivity)
+        viewAdapter = NoteListAdapter(MyApp.noteRepository, activity as HostActivity)
 
         recyclerView = view.findViewById(R.id.notes_list_recycler_view)
         recyclerView.apply {
@@ -51,5 +54,30 @@ class NoteListFragment : Fragment() {
         if (isLandscapeOrientation xor deviceIsTablet) {
             recyclerView.layoutManager = GridLayoutManager(activity, 2)
         }
+
+        val fab: View = view.findViewById(R.id.fab)
+        fab.setOnClickListener {
+            val intent = Intent(context, CameraActivity::class.java)
+            startActivityForResult(intent, CAMERA_REQUEST_CODE)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == CAMERA_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                MyApp.noteRepository.create(Note(
+                    -1,
+                    Date(),
+                    "fake note",
+                    "fake note",
+                    R.drawable.smug
+                ))
+
+                viewAdapter.notifyItemInserted(MyApp.noteRepository.notes.size - 1)
+                Toast.makeText(context, "Saved!", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        super.onActivityResult(requestCode, resultCode, data)
     }
 }

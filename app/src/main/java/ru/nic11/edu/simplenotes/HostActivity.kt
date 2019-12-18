@@ -29,7 +29,7 @@ class HostActivity : AppCompatActivity() {
         }
     }
 
-    fun onNoteSelected(id: String) {
+    fun onNoteSelected(id: Long) {
         if (supportFragmentManager.findFragmentByTag(DetailsFragment.TAG) != null) {
             supportFragmentManager.popBackStack()
         }
