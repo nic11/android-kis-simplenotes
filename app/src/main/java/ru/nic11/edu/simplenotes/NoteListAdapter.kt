@@ -1,9 +1,13 @@
 package ru.nic11.edu.simplenotes
 
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.note_list_item.view.*
 import ru.nic11.edu.simplenotes.db.NoteRepository
@@ -14,6 +18,7 @@ class NoteListAdapter(
     private val noteRepository: NoteRepository,
     private val activity: HostActivity
 ) : RecyclerView.Adapter<NoteListAdapter.MyViewHolder>() {
+
     class MyViewHolder(val cardView: CardView) : RecyclerView.ViewHolder(cardView) {
         var noteId : Long = -1
     }
@@ -31,7 +36,24 @@ class NoteListAdapter(
         }
 
         cardView.card_note_dots.setOnClickListener {
-            Toast.makeText(context, "kek!", Toast.LENGTH_SHORT).show()
+            val popupMenu = PopupMenu(context, it)
+            popupMenu.inflate(R.menu.popup_menu)
+            popupMenu.setOnMenuItemClickListener { item ->
+                when (item?.itemId) {
+                    R.id.menu_share -> {
+                        Toast.makeText(MyApp.context, "share note id=${holder.noteId}", Toast.LENGTH_SHORT).show()
+                        true
+                    }
+                    R.id.menu_delete -> {
+                        MyApp.noteRepository.deleteNodeById(holder.noteId)
+                        notifyDataSetChanged()  // TODO: notifyRemoved
+                        Toast.makeText(MyApp.context, "deleted note id=${holder.noteId}", Toast.LENGTH_SHORT).show()
+                        true
+                    }
+                    else -> false
+                }
+            }
+            popupMenu.show()
         }
 
         return holder

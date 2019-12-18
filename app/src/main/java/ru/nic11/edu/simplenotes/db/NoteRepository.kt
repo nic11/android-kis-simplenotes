@@ -58,8 +58,17 @@ class NoteRepository(
         return notes.find {note: Note -> note.id == id}
     }
 
+    fun deleteNodeById(id: Long): Boolean {
+        try {
+            val db = dbHolder.open()
+            return db.delete(NoteContract.TABLE_NAME,
+                  "${NoteContractColumns._ID} = ?", arrayOf(id.toString())) == 1
+        } finally {
+            dbHolder.close()
+        }
+    }
+
     fun create(note: Note) {
-        // notes.add(note)
         try {
             val db = dbHolder.open()
             val contentValues = ContentValues()
