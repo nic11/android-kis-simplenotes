@@ -1,19 +1,14 @@
 package ru.nic11.edu.simplenotes
 
-import android.content.Intent
-import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.nic11.edu.simplenotes.db.Note
-import ru.nic11.edu.simplenotes.db.NoteRepository
 import java.util.*
 
 class NoteListFragment : Fragment() {

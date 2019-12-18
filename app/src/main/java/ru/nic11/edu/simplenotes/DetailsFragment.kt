@@ -1,8 +1,5 @@
 package ru.nic11.edu.simplenotes
 
-import android.content.Context
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import ru.nic11.edu.simplenotes.db.NoteRepository
 
 class DetailsFragment : Fragment() {
     companion object {
