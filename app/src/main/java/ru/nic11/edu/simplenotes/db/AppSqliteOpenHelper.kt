@@ -22,7 +22,7 @@ class AppSqliteOpenHelper(context: Context?) : SQLiteOpenHelper(
     }
 
     companion object {
-        private const val DATABASE_NAME = "SampleDatabase.db"
+        private const val DATABASE_NAME = "KisSimpleNotes.db"
         private const val VERSION = 1
     }
 }
