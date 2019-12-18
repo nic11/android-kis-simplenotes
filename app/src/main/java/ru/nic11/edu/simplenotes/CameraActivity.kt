@@ -1,6 +1,8 @@
 package ru.nic11.edu.simplenotes
 
 import android.Manifest
+import android.app.Activity
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.AsyncTask
 import android.os.Bundle
@@ -18,13 +20,14 @@ import java.util.*
 const val PERMISSION_REQUEST_CODE = 0
 
 class CameraActivity : AppCompatActivity(), ImageCapture.OnImageSavedListener {
-//    private lateinit var cameraView: CameraView
+    companion object {
+        const val KEY_SAVED_PATH = "saved_path"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera)
 
-//        checkSelfPermission(android.Manifest.permission.CAMERA)
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 == PackageManager.PERMISSION_GRANTED) {
             startCamera()
@@ -34,11 +37,9 @@ class CameraActivity : AppCompatActivity(), ImageCapture.OnImageSavedListener {
     }
 
     private fun startCamera() {
-//        cameraView = findViewById(R.id.cameraView)
         cameraView.captureMode = CameraView.CaptureMode.IMAGE
         cameraView.bindToLifecycle(this)
 
-//        takePictureButton = findViewById(R.id.takePictureButton)
         takePictureButton.setOnClickListener{
             cameraView.takePicture(
                 generatePictureFile(),
@@ -77,8 +78,10 @@ class CameraActivity : AppCompatActivity(), ImageCapture.OnImageSavedListener {
     }
 
     override fun onImageSaved(file: File) {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        Toast.makeText(this, "Saved!", Toast.LENGTH_LONG).show()
+        val intent = Intent()
+        intent.putExtra(KEY_SAVED_PATH, file.path)
+        setResult(Activity.RESULT_OK, intent)
+        finish()
     }
 
     override fun onError(

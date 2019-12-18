@@ -1,15 +1,20 @@
 package ru.nic11.edu.simplenotes
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.nic11.edu.simplenotes.db.Note
 import java.util.*
+
+const val CAMERA_REQUEST_CODE = 2077
 
 class NoteListFragment : Fragment() {
     companion object {
@@ -52,20 +57,27 @@ class NoteListFragment : Fragment() {
 
         val fab: View = view.findViewById(R.id.fab)
         fab.setOnClickListener {
-            /* FIXME: Падает при попытке инициализации камеры
             val intent = Intent(context, CameraActivity::class.java)
-            startActivity(intent)
-            */
-
-            MyApp.noteRepository.create(Note(
-                -1,
-                Date(),
-                "fake note",
-                "fake note",
-                R.drawable.smug
-            ))
-
-            viewAdapter.notifyItemInserted(MyApp.noteRepository.notes.size - 1)
+            startActivityForResult(intent, CAMERA_REQUEST_CODE)
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == CAMERA_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                MyApp.noteRepository.create(Note(
+                    -1,
+                    Date(),
+                    "fake note",
+                    "fake note",
+                    R.drawable.smug
+                ))
+
+                viewAdapter.notifyItemInserted(MyApp.noteRepository.notes.size - 1)
+                Toast.makeText(context, "Saved!", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        super.onActivityResult(requestCode, resultCode, data)
     }
 }
