@@ -12,7 +12,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import ru.nic11.edu.simplenotes.db.Note
 import ru.nic11.edu.simplenotes.db.NoteRepository
+import java.util.*
 
 class NoteListFragment : Fragment() {
     companion object {
@@ -55,9 +57,20 @@ class NoteListFragment : Fragment() {
 
         val fab: View = view.findViewById(R.id.fab)
         fab.setOnClickListener {
+            /* FIXME: Падает при попытке инициализации камеры
             val intent = Intent(context, CameraActivity::class.java)
             startActivity(intent)
-            Log.i("tag","WAWAWAWAWAWAWA")
+            */
+
+            MyApp.noteRepository.create(Note(
+                -1,
+                Date(),
+                "fake note",
+                "fake note",
+                R.drawable.smug
+            ))
+
+            viewAdapter.notifyItemInserted(MyApp.noteRepository.notes.size - 1)
         }
     }
 }

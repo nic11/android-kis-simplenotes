@@ -10,14 +10,14 @@ class DatabaseHolder(context: Context) {
     private var databaseOpenCloseBalance = 0
     private val reentrantLock = ReentrantLock()
 
-    fun open(): SQLiteDatabase? {
+    fun open(): SQLiteDatabase {
         return try {
             reentrantLock.lock()
             if (databaseOpenCloseBalance == 0) {
                 sqLiteDatabase = appSqliteOpenHelper.writableDatabase
             }
             ++databaseOpenCloseBalance
-            sqLiteDatabase
+            sqLiteDatabase!!
         } finally {
             reentrantLock.unlock()
         }

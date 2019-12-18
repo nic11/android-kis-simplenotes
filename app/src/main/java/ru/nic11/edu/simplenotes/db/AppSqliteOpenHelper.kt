@@ -11,7 +11,7 @@ class AppSqliteOpenHelper(context: Context?) : SQLiteOpenHelper(
     VERSION
 ) {
     override fun onCreate(db: SQLiteDatabase) {
-//        PersonContract.createTable(db)
+        NoteContract.createTable(db)
     }
 
     override fun onUpgrade(

@@ -11,12 +11,14 @@ class MyApp : Application() {
             private set
 
         lateinit var dbHolder: DatabaseHolder
-        lateinit var noteRepository: NoteRepository
+
+        val noteRepository by lazy {
+            NoteRepository(context, dbHolder)
+        }
     }
 
     init {
         context = this
         dbHolder = DatabaseHolder(context)
-        noteRepository = NoteRepository(context, dbHolder)
     }
 }

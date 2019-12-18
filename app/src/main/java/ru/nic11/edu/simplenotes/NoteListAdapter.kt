@@ -14,7 +14,7 @@ class NoteListAdapter(
     private val activity: HostActivity
 ) : RecyclerView.Adapter<NoteListAdapter.MyViewHolder>() {
     class MyViewHolder(val cardView: CardView) : RecyclerView.ViewHolder(cardView) {
-        lateinit var noteId : String
+        var noteId : Long = -1
     }
 
     override fun onCreateViewHolder(parent: ViewGroup,

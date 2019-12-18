@@ -17,11 +17,11 @@ class DetailsFragment : Fragment() {
         private const val ID_KEY = "note_id"
         const val TAG = "DetailsFragment"
 
-        fun build(id: String): Fragment {
+        fun build(id: Long): Fragment {
             val fragment = DetailsFragment()
 
             val args = Bundle()
-            args.putString(ID_KEY, id)
+            args.putLong(ID_KEY, id)
 
             fragment.arguments = args
 
@@ -40,10 +40,12 @@ class DetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val id = arguments!!.getString(ID_KEY)!!
-        val note = MyApp.noteRepository.getNoteWithId(id)!!
+        val id = arguments?.getLong(ID_KEY) ?:
+            throw IllegalArgumentException("use build(int)")
+        val note = MyApp.noteRepository.getNoteWithId(id) ?:
+            throw IllegalArgumentException("no such note")
 
-        activity!!.title = note.title
+        activity?.title = note.title
         view.findViewById<ImageView>(R.id.note_image).setImageResource(note.drawableIdRes)
         view.findViewById<TextView>(R.id.note_text).text = note.text
     }
