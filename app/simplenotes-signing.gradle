@@ -1,8 +1,8 @@
 // https://proandroiddev.com/android-open-source-app-secure-build-c3d3df8bcc16
 
 def propertiesFilename = "testing.properties"  // test release can be built by everyone
-if (project.file("release.properties").exists()) {
-    propertiesFilename = "release.properties"  // mainainers can build production release
+if (project.file("production.properties").exists()) {
+    propertiesFilename = "production.properties"  // mainainers can build production release
 }
 
 def singingProperties = new Properties()
