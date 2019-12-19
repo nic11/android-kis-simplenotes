@@ -1,7 +1,6 @@
 package ru.nic11.edu.simplenotes
 
 import android.content.Intent
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.PopupMenu
@@ -21,7 +20,6 @@ class NoteListAdapter(
 ) : RecyclerView.Adapter<NoteListAdapter.MyViewHolder>() {
 
     class MyViewHolder(val cardView: CardView) : RecyclerView.ViewHolder(cardView) {
-//        var noteId : Long = -1
         lateinit var note : Note
     }
 
