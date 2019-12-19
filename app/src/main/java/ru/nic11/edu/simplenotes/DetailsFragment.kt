@@ -41,7 +41,6 @@ class DetailsFragment : Fragment() {
         val note = MyApp.noteRepository.getNoteWithId(id) ?:
             throw IllegalArgumentException("no such note")
 
-        activity?.title = note.title
         view.findViewById<ImageView>(R.id.note_image).setImageResource(note.drawableIdRes)
         view.findViewById<TextView>(R.id.note_text).text = note.text
     }

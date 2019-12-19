@@ -6,6 +6,9 @@
     <string name="need_permission">Для сканирования текста с заметок нужно разрешение на камеру</string>
     <string name="permission_in_settings">Разрешить использование камеры можно в системных настройках</string>
 
+    <string name="menu_share">Share</string>
+    <string name="menu_delete">Delete</string>
+
     <string name="somebody">Some... BODY ONCE TOLD ME</string>
     <string name="lipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tincidunt sapien vitae

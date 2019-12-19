@@ -1,7 +1,7 @@
 package ru.nic11.edu.simplenotes
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 
 class HostActivity : AppCompatActivity() {
 
@@ -25,7 +25,6 @@ class HostActivity : AppCompatActivity() {
             finish()
         } else {
             super.onBackPressed()
-            title = resources.getString(R.string.main_title)
         }
     }
 
