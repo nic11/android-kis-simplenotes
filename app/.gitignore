@@ -1,1 +1,7 @@
 /build
+/release
+
+# Ignore production keystore and its' keys
+# Testing keystore and properties are safe to publish
+/keystores/private*
+/production.properties
