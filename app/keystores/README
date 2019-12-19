@@ -1,0 +1,1 @@
+This app can build a release with private (in priority) or public keystores. See ../simplenotes-signing.gradle

@@ -1,0 +1,20 @@
+// https://proandroiddev.com/android-open-source-app-secure-build-c3d3df8bcc16
+
+def propertiesFilename = "testing.properties"  // test release can be built by everyone
+if (project.file("production.properties").exists()) {
+    propertiesFilename = "production.properties"  // mainainers can build production release
+}
+
+def singingProperties = new Properties()
+singingProperties.load(new FileInputStream(file(propertiesFilename)))
+
+android {
+    signingConfigs {
+        release {
+            keyAlias singingProperties.releaseSignKeyAlias
+            keyPassword singingProperties.releaseSignKeyPassword
+            storeFile file(singingProperties.releaseStoreFilePath)
+            storePassword singingProperties.releaseStorePassword
+        }
+    }
+}
