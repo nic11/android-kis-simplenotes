@@ -3,6 +3,7 @@ package ru.nic11.edu.simplenotes
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,6 +39,14 @@ class NoteListFragment : Fragment() {
 
         val activity = activity!!
 
+        MyApp.noteRepository.update {
+            Log.i(LOG_TAG, "fetched notes")
+            activity.runOnUiThread {
+                Toast.makeText(activity, "fetched notes", Toast.LENGTH_SHORT).show()
+                viewAdapter.notifyDataSetChanged()
+            }
+        }
+
         viewManager = LinearLayoutManager(activity)
         viewAdapter = NoteListAdapter(MyApp.noteRepository, activity as HostActivity)
 
@@ -66,17 +75,25 @@ class NoteListFragment : Fragment() {
         if (requestCode == CAMERA_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 MyApp.noteRepository.create(Note(
-                    -1,
+                    "ololo",
                     Date(),
-                    "fake note",
+                    "Enter some text here",
                     R.drawable.smug
-                ))
+                )) {
+                    activity!!.runOnUiThread {
+                        Toast.makeText(context, "created note id=$it", Toast.LENGTH_SHORT).show()
+                        viewAdapter.notifyDataSetChanged()
+                    }
+                }
 
-                viewAdapter.notifyItemInserted(MyApp.noteRepository.notes.size - 1)
-                Toast.makeText(context, "Saved!", Toast.LENGTH_LONG).show()
+//                viewAdapter.notifyItemInserted(MyApp.noteRepository.notes.size - 1)
             }
         }
 
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    fun notifyViewAdapter() {
+        viewAdapter.notifyDataSetChanged()
     }
 }

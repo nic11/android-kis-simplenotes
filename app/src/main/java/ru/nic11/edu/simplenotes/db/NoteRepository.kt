@@ -1,119 +1,150 @@
 package ru.nic11.edu.simplenotes.db
 
-import android.content.ContentValues
 import android.content.Context
-import android.database.Cursor
-import android.database.sqlite.SQLiteDatabase
-import ru.nic11.edu.simplenotes.R
-import java.util.*
+import android.util.Log
+import com.github.kittinunf.fuel.Fuel
+import com.github.kittinunf.fuel.core.FuelManager
+import com.github.kittinunf.fuel.gson.jsonBody
+import com.github.kittinunf.fuel.gson.responseObject
+import com.github.kittinunf.result.Result
+import ru.nic11.edu.simplenotes.API_BASE
+import ru.nic11.edu.simplenotes.LOG_TAG
+import ru.nic11.edu.simplenotes.api.*
 
 class NoteRepository(
     private val context: Context,
     private val dbHolder: DatabaseHolder
 ) {
-    val notes: List<Note>
-        get() = loadAll()
+    var notes: List<Note> = listOf()
+
+    private lateinit var token: String
 
     init {
-        if (notes.isEmpty()) {
-            fillDbDefault()
-        }
+//        if (notes.isEmpty()) {
+//            fillDbDefault()
+//        }
+        FuelManager.instance.basePath = API_BASE
     }
 
-    private fun fillDbDefault() {
-        var cnt = 0L
-        val date = GregorianCalendar(2077, 3, 16, 13, 37).time
-        create(Note(
-            cnt, date, context.getString(R.string.somebody) + "\n" +
-                    "[$cnt]" + context.getString(R.string.lipsum),
-            R.drawable.my_kek2
-        ))
-        cnt++
-        create(Note(
-            cnt, date, "Что на этот раз сказал гений? /$cnt\n" +
-                    "[$cnt]" + context.getString(R.string.genius),
-            R.drawable.genius
-        ))
-        cnt++
-        create(Note(
-            cnt, date, "Предложили сыграть в Portal 2 /$cnt\n" +
-                    "[$cnt]" + context.getString(R.string.portal2),
-            R.drawable.geralt
-        ))
-        cnt++
-        create(Note(
-            cnt, date, "Не придумал шутку /$cnt\n" +
-                    "[$cnt]" + context.getString(R.string.running),
-            R.drawable.running_in_the_90s
-        ))
-        cnt++
-        create(Note(
-            cnt, date, "Нашлась шляпа! /$cnt\n" +
-                    "[$cnt]" + context.getString(R.string.hat),
-            R.drawable.smug
-        ))
+    fun getNoteWithId(id: String): Note? {
+        return notes.find {it.id == id}
     }
 
-    fun getNoteWithId(id: Long): Note? {
-        return notes.find {note: Note -> note.id == id}
-    }
-
-    fun deleteNodeById(id: Long): Boolean {
-        try {
-            val db = dbHolder.open()
-            return db.delete(NoteContract.TABLE_NAME,
-                  "${NoteContractColumns._ID} = ?", arrayOf(id.toString())) == 1
-        } finally {
-            dbHolder.close()
-        }
-    }
-
-    fun create(note: Note) {
-        try {
-            val db = dbHolder.open()
-            val contentValues = ContentValues()
-            contentValues.put(NoteContractColumns.DATE, note.date.time)
-            contentValues.put(NoteContractColumns.TEXT, note.text)
-            contentValues.put(NoteContractColumns.DRAWABLE_ID, note.drawableIdRes)
-            db.insert(NoteContract.TABLE_NAME, null, contentValues)
-        } finally {
-            dbHolder.close()
-        }
-    }
-
-    private fun loadAll(): List<Note> {
-        val noteList: MutableList<Note> = ArrayList()
-        var cur: Cursor? = null
-        try {
-            val database: SQLiteDatabase = dbHolder.open()
-            cur = database.query(
-                NoteContract.TABLE_NAME,
-                arrayOf(
-                    NoteContractColumns._ID,
-                    NoteContractColumns.DATE,
-                    NoteContractColumns.TEXT,
-                    NoteContractColumns.DRAWABLE_ID
-                ),
-                null,
-                null,
-                null,
-                null,
-                null
-            )
-            while (cur.moveToNext()) {
-                val note = Note(
-                    id = cur.getLong(cur.getColumnIndex(NoteContractColumns._ID)),
-                    date = Date(cur.getLong(cur.getColumnIndex(NoteContractColumns.DATE))),
-                    text = cur.getString(cur.getColumnIndex(NoteContractColumns.TEXT)),
-                    drawableIdRes = cur.getInt(cur.getColumnIndex(NoteContractColumns.DRAWABLE_ID))
-                )
-                noteList.add(note)
+    fun deleteNoteById(id: String, successCallback: () -> Unit) {
+        if (!this::token.isInitialized) {
+            login {
+                deleteNoteById(id, successCallback)
             }
-        } finally {
-            cur?.close()
-            dbHolder.close()
+            return
         }
+        Fuel.delete("notes/$id")
+            .response { request, response, result ->
+                when (result) {
+                    is Result.Failure -> {
+                        Log.e(LOG_TAG, "failed to post note", result.error)
+                    }
+                    is Result.Success -> {
+                        Log.i(LOG_TAG, "note deleted: $id")
+                        update {
+                            successCallback()
+                        }
+                    }
+                }
+            }
+    }
 
-        return noteList
+    fun changeNoteText(id: String, newText: String, successCallback: () -> Unit) {
+        if (!this::token.isInitialized) {
+            login {
+                changeNoteText(id, newText, successCallback)
+            }
+            return
+        }
+        Fuel.put("notes/$id")
+            .jsonBody(NotePutRequest(text=newText))
+            .response { request, response, result ->
+                when (result) {
+                    is Result.Failure -> {
+                        Log.e(LOG_TAG, "failed to put note", result.error)
+                    }
+                    is Result.Success -> {
+                        Log.i(LOG_TAG, "note updated: $id")
+                        update {
+                            successCallback()
+                        }
+                    }
+                }
+            }
+    }
+
+    fun create(note: Note, successCallback: (String) -> Unit) {
+        if (!this::token.isInitialized) {
+            login {
+                create(note, successCallback)
+            }
+            return
+        }
+        Fuel.post("notes")
+            .jsonBody(NotePostRequest(text=note.text, archived=false))
+            .responseObject<NotePostResponse> {request, response, result ->
+                when (result) {
+                    is Result.Failure -> {
+                        Log.e(LOG_TAG, "failed to post note", result.error)
+                    }
+                    is Result.Success -> {
+                        Log.i(LOG_TAG, "note added: ${result.value.noteId}")
+                        update {
+                            successCallback(result.value.noteId)
+                        }
+                    }
+                }
+            }
+    }
+
+    fun update(successCallback: () -> Unit) {
+        if (!this::token.isInitialized) {
+            login {
+                update(successCallback)
+            }
+            return
+        }
+        Fuel.get("notes").responseObject<NotesResponse> { request, response, result ->
+            when (result) {
+                is Result.Failure -> {
+                    Log.e(LOG_TAG, "failed to fetch notes", result.error)
+//                    Toast.makeText(context, "failed to fetch notes", Toast.LENGTH_LONG).show()
+                }
+                is Result.Success -> {
+                    notes = result.value.notes.map {
+                        Note(id=it._id, date=it.updatedAt, text=it.text, drawableIdRes=null)
+                    }
+                    successCallback()
+                }
+            }
+        }
+    }
+
+    private fun login(successCallback: () -> Unit) {
+        Fuel.post("login", listOf("username" to "jill", "password" to "birthday"))
+            .responseObject<TokenResponse> { request, response, result ->
+                when (result) {
+                    is Result.Failure -> {
+                        Log.e(LOG_TAG, "Login error", result.error)
+//                        Toast.makeText(context, "login error", Toast.LENGTH_LONG).show()
+                    }
+                    is Result.Success -> {
+                        Log.i(LOG_TAG, "Logged in as jill")
+//                        Toast.makeText(context, "logged in as jill", Toast.LENGTH_SHORT).show()
+                        token = result.value.token
+                        FuelManager.instance.addRequestInterceptor { next ->
+                            { request ->
+                                request.appendHeader("authorization", "bearer $token")
+                                next(request)
+                            }
+                        }
+                        successCallback()
+                    }
+                }
+            }
     }
 }

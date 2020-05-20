@@ -8,7 +8,7 @@ apply from: 'simplenotes-signing.gradle'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    buildToolsVersion "29.0.3"
     defaultConfig {
         applicationId "ru.nic11.edu.simplenotes"
         minSdkVersion 21
@@ -57,4 +57,16 @@ dependencies {
     implementation "androidx.camera:camera-core:$camerax_version"
     implementation "androidx.camera:camera-camera2:$camerax_version"
     implementation "androidx.camera:camera-view:$camerax_view_version"
+
+    def fuel_version = "2.2.2"
+
+    implementation "com.github.kittinunf.fuel:fuel:$fuel_version"
+    implementation "com.github.kittinunf.fuel:fuel-gson:$fuel_version"
+    implementation "com.github.kittinunf.fuel:fuel-rxjava:$fuel_version"
+    implementation "com.github.kittinunf.fuel:fuel-coroutines:$fuel_version"
+
+    implementation "com.google.code.gson:gson:2.8.5"
+
+//    implementation "khttp:khttp:1.0.0"
+//    implementation "io.karn:khttp-android:0.1.0"
 }

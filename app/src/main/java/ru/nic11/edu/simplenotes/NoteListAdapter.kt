@@ -3,6 +3,7 @@ package ru.nic11.edu.simplenotes
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.cardview.widget.CardView
@@ -52,9 +53,16 @@ class NoteListAdapter(
                         true
                     }
                     R.id.menu_delete -> {
-                        MyApp.noteRepository.deleteNodeById(holder.note.id)
-                        notifyDataSetChanged()  // TODO: notifyRemoved
-                        Toast.makeText(MyApp.context, "deleted note id=${holder.note.id}", Toast.LENGTH_SHORT).show()
+                        MyApp.noteRepository.deleteNoteById(holder.note.id) {
+                            activity.runOnUiThread {
+                                notifyDataSetChanged()  // TODO: notifyRemoved
+                                Toast.makeText(
+                                    MyApp.context,
+                                    "deleted note id=${holder.note.id}",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
                         true
                     }
                     else -> false
@@ -72,7 +80,13 @@ class NoteListAdapter(
         holder.note = note
         cardView.card_note_date.text = SimpleDateFormat.getDateInstance(DateFormat.MEDIUM).format(note.date)
         cardView.card_note_text.text = note.text
-        cardView.card_note_image.setImageResource(note.drawableIdRes)
+        val drawableIdRes = note.drawableIdRes
+//        val noteImage = view.findViewById<ImageView>(R.id.note_image)
+        if (drawableIdRes != null) {
+            cardView.card_note_image.setImageResource(drawableIdRes)
+        } else {
+            cardView.card_note_image.visibility = ImageView.GONE
+        }
     }
 
     override fun getItemCount() = noteRepository.notes.size

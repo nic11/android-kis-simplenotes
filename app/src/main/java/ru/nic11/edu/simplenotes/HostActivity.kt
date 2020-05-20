@@ -28,7 +28,7 @@ class HostActivity : AppCompatActivity() {
         }
     }
 
-    fun onNoteSelected(id: Long) {
+    fun onNoteSelected(id: String) {
         if (supportFragmentManager.findFragmentByTag(DetailsFragment.TAG) != null) {
             supportFragmentManager.popBackStack()
         }
@@ -38,5 +38,11 @@ class HostActivity : AppCompatActivity() {
             .replace(R.id.activity_host_details_container, DetailsFragment.build(id), DetailsFragment.TAG)
             .addToBackStack(null)
             .commit()
+    }
+
+    fun notifyNotesUpdated() {
+        val noteListFrag = supportFragmentManager.findFragmentByTag(NoteListFragment.TAG)
+                as NoteListFragment
+        noteListFrag.notifyViewAdapter()
     }
 }

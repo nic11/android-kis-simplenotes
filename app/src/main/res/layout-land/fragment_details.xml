@@ -20,7 +20,7 @@
         android:contentDescription="@null"
         />
 
-    <TextView
+    <EditText
         android:id="@+id/note_text"
         android:layout_weight="60"
         android:layout_width="0dp"
