@@ -18,10 +18,19 @@ class NoteRepository(
 ) {
     var notes: List<Note> = listOf()
 
-    private lateinit var token: String
+    private var token: String? = null
 
     init {
         FuelManager.instance.basePath = API_BASE
+        FuelManager.instance.addRequestInterceptor { next ->
+            { request ->
+                if (token != null) {
+                    request.appendHeader("authorization", "bearer $token")
+                }
+                next(request)
+            }
+        }
+        loadToken()
     }
 
     fun getNoteWithId(id: String): Note? {
@@ -29,12 +38,12 @@ class NoteRepository(
     }
 
     fun deleteNoteById(id: String, successCallback: () -> Unit) {
-        if (!this::token.isInitialized) {
-            login {
-                deleteNoteById(id, successCallback)
-            }
-            return
-        }
+//        if (!loggedIn()) {
+//            login {
+//                deleteNoteById(id, successCallback)
+//            }
+//            return
+//        }
         Fuel.delete("notes/$id")
             .response { request, response, result ->
                 when (result) {
@@ -52,12 +61,12 @@ class NoteRepository(
     }
 
     fun changeNoteText(id: String, newText: String, successCallback: () -> Unit) {
-        if (!this::token.isInitialized) {
-            login {
-                changeNoteText(id, newText, successCallback)
-            }
-            return
-        }
+//        if (!loggedIn()) {
+//            login {
+//                changeNoteText(id, newText, successCallback)
+//            }
+//            return
+//        }
         Fuel.put("notes/$id")
             .jsonBody(NotePutRequest(text=newText))
             .response { request, response, result ->
@@ -76,12 +85,12 @@ class NoteRepository(
     }
 
     fun create(text: String, imageB64: String, successCallback: (String) -> Unit) {
-        if (!this::token.isInitialized) {
-            login {
-                create(text, imageB64, successCallback)
-            }
-            return
-        }
+//        if (!loggedIn()) {
+//            login {
+//                create(text, imageB64, successCallback)
+//            }
+//            return
+//        }
         Fuel.post("notes")
             .jsonBody(NotePostRequest(text=text, imageB64=imageB64, archived=false))
             .responseObject<NotePostResponse> {request, response, result ->
@@ -100,12 +109,12 @@ class NoteRepository(
     }
 
     fun update(successCallback: () -> Unit) {
-        if (!this::token.isInitialized) {
-            login {
-                update(successCallback)
-            }
-            return
-        }
+//        if (!loggedIn()) {
+//            login {
+//                update(successCallback)
+//            }
+//            return
+//        }
         Fuel.get("notes").responseObject<NotesResponse> { request, response, result ->
             when (result) {
                 is Result.Failure -> {
@@ -122,27 +131,71 @@ class NoteRepository(
         }
     }
 
-    private fun login(username: String = "jill", password: String = "birthday", successCallback: () -> Unit) {
+    fun login(username: String, password: String, successCallback: () -> Unit,
+              failCallback: () -> Unit) {
         Fuel.post("login", listOf("username" to username, "password" to password))
             .responseObject<TokenResponse> { request, response, result ->
                 when (result) {
                     is Result.Failure -> {
                         Log.e(LOG_TAG, "Login error", result.error)
-                        MyApp.toastLong("login error")
+                        MyApp.toastLong("login error, maybe login or password is incorrect")
+                        failCallback()
                     }
                     is Result.Success -> {
                         Log.i(LOG_TAG, "Logged in as $username")
                         MyApp.toastShort("logged in as $username")
                         token = result.value.token
-                        FuelManager.instance.addRequestInterceptor { next ->
-                            { request ->
-                                request.appendHeader("authorization", "bearer $token")
-                                next(request)
-                            }
-                        }
+                        saveToken()
                         successCallback()
                     }
                 }
             }
+    }
+
+    fun register(username: String, password: String, successCallback: () -> Unit,
+              failCallback: () -> Unit) {
+        Fuel.post("register", listOf("username" to username, "password" to password))
+            .responseObject<TokenResponse> { request, response, result ->
+                when (result) {
+                    is Result.Failure -> {
+                        Log.e(LOG_TAG, "Register", result.error)
+                        MyApp.toastLong("could not register: probably user already exists")
+                        failCallback()
+                    }
+                    is Result.Success -> {
+                        Log.i(LOG_TAG, "Logged in as $username")
+                        MyApp.toastShort("logged in as $username")
+                        token = result.value.token
+                        saveToken()
+                        successCallback()
+                    }
+                }
+            }
+    }
+
+    fun logout() {
+        token = null
+        saveToken()
+    }
+
+    fun loggedIn(): Boolean {
+        return token != null
+    }
+
+    private fun loadToken() {
+        val sp = MyApp.context.getSharedPreferences("login", Context.MODE_PRIVATE);
+        val token = sp.getString("token", null)
+        Log.i(LOG_TAG, "Loaded token: $token; ${token?.length}")
+        if (token != null) {
+            this.token = token
+        }
+    }
+
+    private fun saveToken() {
+        val sp = MyApp.context.getSharedPreferences("login", Context.MODE_PRIVATE);
+        val ed = sp.edit()
+        ed.putString("token", token)
+        ed.apply()
+        Log.i(LOG_TAG, "Saving token: $token; ${token?.length}")
     }
 }
