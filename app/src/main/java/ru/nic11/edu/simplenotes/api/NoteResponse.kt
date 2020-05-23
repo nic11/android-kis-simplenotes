@@ -8,5 +8,6 @@ class NoteResponse(
     val userId: String,
     val createdAt: Date,
     val updatedAt: Date,
-    val archived: Boolean
+    val archived: Boolean,
+    val pictureB64: String?
 )

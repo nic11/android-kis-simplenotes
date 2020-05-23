@@ -1,6 +1,8 @@
 package ru.nic11.edu.simplenotes
 
 import android.content.Intent
+import android.graphics.BitmapFactory
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -80,13 +82,7 @@ class NoteListAdapter(
         holder.note = note
         cardView.card_note_date.text = SimpleDateFormat.getDateInstance(DateFormat.MEDIUM).format(note.date)
         cardView.card_note_text.text = note.text
-        val drawableIdRes = note.drawableIdRes
-//        val noteImage = view.findViewById<ImageView>(R.id.note_image)
-        if (drawableIdRes != null) {
-            cardView.card_note_image.setImageResource(drawableIdRes)
-        } else {
-            cardView.card_note_image.visibility = ImageView.GONE
-        }
+        putPicture(cardView.card_note_image, note.pictureB64)
     }
 
     override fun getItemCount() = noteRepository.notes.size

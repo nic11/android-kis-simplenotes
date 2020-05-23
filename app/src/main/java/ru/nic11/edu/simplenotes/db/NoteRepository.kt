@@ -9,6 +9,7 @@ import com.github.kittinunf.fuel.gson.responseObject
 import com.github.kittinunf.result.Result
 import ru.nic11.edu.simplenotes.API_BASE
 import ru.nic11.edu.simplenotes.LOG_TAG
+import ru.nic11.edu.simplenotes.MyApp
 import ru.nic11.edu.simplenotes.api.*
 
 class NoteRepository(
@@ -20,9 +21,6 @@ class NoteRepository(
     private lateinit var token: String
 
     init {
-//        if (notes.isEmpty()) {
-//            fillDbDefault()
-//        }
         FuelManager.instance.basePath = API_BASE
     }
 
@@ -77,15 +75,15 @@ class NoteRepository(
             }
     }
 
-    fun create(note: Note, successCallback: (String) -> Unit) {
+    fun create(text: String, imageB64: String, successCallback: (String) -> Unit) {
         if (!this::token.isInitialized) {
             login {
-                create(note, successCallback)
+                create(text, imageB64, successCallback)
             }
             return
         }
         Fuel.post("notes")
-            .jsonBody(NotePostRequest(text=note.text, archived=false))
+            .jsonBody(NotePostRequest(text=text, imageB64=imageB64, archived=false))
             .responseObject<NotePostResponse> {request, response, result ->
                 when (result) {
                     is Result.Failure -> {
@@ -112,11 +110,11 @@ class NoteRepository(
             when (result) {
                 is Result.Failure -> {
                     Log.e(LOG_TAG, "failed to fetch notes", result.error)
-//                    Toast.makeText(context, "failed to fetch notes", Toast.LENGTH_LONG).show()
+                    MyApp.toastLong("failed to fetch notes")
                 }
                 is Result.Success -> {
                     notes = result.value.notes.map {
-                        Note(id=it._id, date=it.updatedAt, text=it.text, drawableIdRes=null)
+                        Note(id=it._id, date=it.updatedAt, text=it.text, pictureB64=it.pictureB64)
                     }
                     successCallback()
                 }
@@ -124,17 +122,17 @@ class NoteRepository(
         }
     }
 
-    private fun login(successCallback: () -> Unit) {
-        Fuel.post("login", listOf("username" to "jill", "password" to "birthday"))
+    private fun login(username: String = "jill", password: String = "birthday", successCallback: () -> Unit) {
+        Fuel.post("login", listOf("username" to username, "password" to password))
             .responseObject<TokenResponse> { request, response, result ->
                 when (result) {
                     is Result.Failure -> {
                         Log.e(LOG_TAG, "Login error", result.error)
-//                        Toast.makeText(context, "login error", Toast.LENGTH_LONG).show()
+                        MyApp.toastLong("login error")
                     }
                     is Result.Success -> {
-                        Log.i(LOG_TAG, "Logged in as jill")
-//                        Toast.makeText(context, "logged in as jill", Toast.LENGTH_SHORT).show()
+                        Log.i(LOG_TAG, "Logged in as $username")
+                        MyApp.toastShort("logged in as $username")
                         token = result.value.token
                         FuelManager.instance.addRequestInterceptor { next ->
                             { request ->

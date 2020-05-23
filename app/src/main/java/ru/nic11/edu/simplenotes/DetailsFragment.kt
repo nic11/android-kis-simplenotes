@@ -6,9 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.transition.Visibility
 
 class DetailsFragment : Fragment() {
     companion object {
@@ -58,15 +56,9 @@ class DetailsFragment : Fragment() {
         val note = MyApp.noteRepository.getNoteWithId(id) ?:
             throw IllegalArgumentException("no such note")
 
-        val drawableIdRes = note.drawableIdRes
         val noteImage = view.findViewById<ImageView>(R.id.note_image)
-        if (drawableIdRes != null) {
-            noteImage.setImageResource(drawableIdRes)
-        } else {
-            noteImage.visibility = ImageView.GONE
-        }
-        noteText = view.findViewById<EditText>(R.id.note_text)
-//        noteText.text = note.text
+        putPicture(noteImage, note.pictureB64)
+        noteText = view.findViewById(R.id.note_text)
         noteText.setText(note.text)
     }
 }

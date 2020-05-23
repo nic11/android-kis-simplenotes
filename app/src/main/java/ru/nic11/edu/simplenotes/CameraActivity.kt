@@ -17,11 +17,10 @@ import java.io.File
 import java.util.*
 
 
-const val PERMISSION_REQUEST_CODE = 0
-
 class CameraActivity : AppCompatActivity(), ImageCapture.OnImageSavedListener {
     companion object {
         const val KEY_SAVED_PATH = "saved_path"
+        const val PERMISSION_REQUEST_CODE = 0
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

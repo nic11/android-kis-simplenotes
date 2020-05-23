@@ -8,11 +8,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import android.util.Base64
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import ru.nic11.edu.simplenotes.CameraActivity.Companion.KEY_SAVED_PATH
 import ru.nic11.edu.simplenotes.db.Note
+import java.io.File
+import java.lang.RuntimeException
 import java.util.*
 
 const val CAMERA_REQUEST_CODE = 2077
@@ -74,19 +78,27 @@ class NoteListFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == CAMERA_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-                MyApp.noteRepository.create(Note(
-                    "ololo",
-                    Date(),
+                if (data == null) {
+                    Toast.makeText(context, "wtf data is null", Toast.LENGTH_LONG).show()
+                    return
+                }
+
+                val path = data.getStringExtra(KEY_SAVED_PATH) ?:
+                    throw RuntimeException("camera activity didn't return path")
+
+                val b64 = Base64.encodeToString(File(path).readBytes(), Base64.NO_WRAP)
+                Log.i(LOG_TAG, "base64: $b64")
+                Log.i(LOG_TAG, "b64.len: ${b64.length}")
+
+                MyApp.noteRepository.create(
                     "Enter some text here",
-                    R.drawable.smug
-                )) {
+                    b64
+                ) {
                     activity!!.runOnUiThread {
                         Toast.makeText(context, "created note id=$it", Toast.LENGTH_SHORT).show()
                         viewAdapter.notifyDataSetChanged()
                     }
                 }
-
-//                viewAdapter.notifyItemInserted(MyApp.noteRepository.notes.size - 1)
             }
         }
 
